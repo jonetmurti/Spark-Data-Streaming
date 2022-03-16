@@ -27,7 +27,7 @@ except:
 filename = os.path.splitext(os.path.basename(json_input))[0]
 avro_output = '/' + filename + '.avro'
 
-# TODO: organize records according to schema
+# TODO: parse data
 
 client = InsecureClient('http://hadoop-master:9870')
 

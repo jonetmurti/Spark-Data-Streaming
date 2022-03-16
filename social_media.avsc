@@ -1,0 +1,33 @@
+{
+  "name": "SimpleStream",
+  "type": "record",
+  "namespace": "tes.avro",
+  "fields": [
+    {
+      "name": "original_id",
+      "type": "string"
+    },
+    {
+      "name": "content",
+      "type": "string"
+    },
+    {
+      "name": "from_id",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "from_name",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "created_at",
+      "type": "string"
+    },
+    {
+      "name": "social_media",
+      "type": "string"
+    }
+  ]
+}

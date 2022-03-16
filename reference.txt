@@ -1,0 +1,47 @@
+facebook_post
+[
+    {
+        "id" -> original_id,
+        "message" -> content,
+        "from"["id"] -> from_id
+        "from"["name"] -> from_name
+        "created_time" -> created_at,
+        
+    }
+]
+
+instagram_post
+[
+    {
+        "id" -> original_id,
+        "caption"["text"] -> content,
+        "user"["id"] -> from_id,
+        "user"["username"] -> from_name,
+        "created_time" -> created_at,
+
+    }
+]
+
+twitter_status
+[
+    {
+         "id" -> original_id (convert int to str),
+         "full_text" -> content,
+         "user"["id"] -> from_id (convert int to str),
+         "user"["screen_name"] -> from_name,
+         "created_at" -> created_at,
+
+    }
+]
+
+youtube_video
+[
+    {
+        "id" -> original_id,
+        "snippet"["title"] -> content,
+        "snippet"["channelId"] -> from_id,
+        "snippet"["channelTitle"] -> from_name,
+        "snippet"["publishedAt"] -> created_at,
+
+    }
+]
