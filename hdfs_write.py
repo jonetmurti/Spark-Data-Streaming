@@ -31,7 +31,7 @@ avro_output = '/' + filename + '.avro'
 
 client = InsecureClient('http://hadoop-master:9870')
 
-# TODO: check if avro output already exists, if yes -> delete current output? or stop program?
+client.delete(avro_output)
 
 with AvroWriter(client, avro_output, schema) as writer:
     for record in records:
