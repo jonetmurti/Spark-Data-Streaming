@@ -7,27 +7,24 @@ import os
 if len(sys.argv) < 3:
     sys.exit('usage: python3 hdfs_write.py [avro_schema] [json_input]')
 
-python_file, avro_schema, json_input = sys.argv
+avro_schema = sys.argv[1]
+json_inputs = sys.argv[2:]
 
 if not os.path.isfile(avro_schema):
     sys.exit('avro schema does not exists')
 
-if not os.path.isfile(json_input):
-    sys.exit('json input does not exists')
-
 schema = None
-records = None
+records = []
 
 try:
-    schema = json.load(open(avro_schema))
-    records = json.load(open(json_input))
+    schema = json.load(open(avro_schema, encoding='utf8'))
+    for json_input in json_inputs:
+        if os.path.isfile(json_input):
+            records += json.load(open(json_input, encoding='utf8'))
 except:
     sys.exit('invalid json input or schema format')
 
-filename = os.path.splitext(os.path.basename(json_input))[0]
-avro_output = '/' + filename + '.avro'
-
-# TODO: parse data
+avro_output = '/social_media.avro'
 
 client = InsecureClient('http://hadoop-master:9870')
 
