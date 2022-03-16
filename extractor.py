@@ -37,7 +37,7 @@ def extractor(file_prefix, dump_path, data_path, key):
     for data in dataset:
       extracted_data = {}
       for i in range(len(key_list)):
-        extracted_data[field_list[i]] = get_json_value(data, key_list[i])
+        extracted_data[field_list[i]] = str(get_json_value(data, key_list[i]))
       extracted_data["social_media"] = filenames[0]
       extracted.append(extracted_data)
   with open(os.path.join(dump_path, f"{file_prefix}.json"), "w+") as f:
