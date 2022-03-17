@@ -22,6 +22,18 @@ instagram_post
     }
 ]
 
+instagram_status
+[
+    {
+        "id" -> original_id,
+        "caption"["text"] -> content,
+        "user"["id"] -> from_id,
+        "user"["username"] -> from_name,
+        "created_time" -> created_at,
+
+    }
+]
+
 twitter_status
 [
     {
