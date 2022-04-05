@@ -2,6 +2,8 @@ import os
 import argparse
 import json
 from tqdm import tqdm 
+from datetime import datetime
+from dateutil.parser import *
 
 def load_json(file_path):
   print(file_path)
@@ -37,7 +39,15 @@ def extractor(file_prefix, dump_path, data_path, key):
     for data in dataset:
       extracted_data = {}
       for i in range(len(key_list)):
-        extracted_data[field_list[i]] = str(get_json_value(data, key_list[i]))
+        if field_list[i] == 'created_at':
+          date = None
+          if filenames[0] == 'instagram':
+            date = datetime.fromtimestamp(int(get_json_value(data, key_list[i])))
+          else:
+            date = parse(get_json_value(data, key_list[i]))
+          extracted_data[field_list[i]] = date.strftime('%Y-%m-%d')
+        else:
+          extracted_data[field_list[i]] = str(get_json_value(data, key_list[i]))
       extracted_data["social_media"] = filenames[0]
       extracted.append(extracted_data)
   with open(os.path.join(dump_path, f"{file_prefix}.json"), "w+") as f:
