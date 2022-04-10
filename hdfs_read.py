@@ -4,12 +4,21 @@ from hdfs.ext.avro import AvroReader
 import sys
 import csv
 import os
+import argparse
+import pandas as pd
 
-if len(sys.argv) < 2:
-    sys.exit('usage: python3 hdfs_read.py [avro_input] [field_1] [field_2] ...')
+parser = argparse.ArgumentParser(
+    description='Extract read input data')
+parser.add_argument('--avro_input', type=str, default='/social_media.avro')
+parser.add_argument('--select_field', type=str, default='')
+parser.add_argument('--social_media', type=str, default='')
+parser.add_argument('--search_phrase', type=str, default='')
+args = parser.parse_args()
 
-avro_input = sys.argv[1]
-input_fields = sys.argv[2:] if len(sys.argv) > 2 else []
+avro_input = args.avro_input
+input_fields = args.select_field.split('-') if args.select_field else []
+social_media = args.social_media
+search_phrase = args.search_phrase
 
 client = InsecureClient('http://hadoop-master:9870')
 
@@ -20,8 +29,14 @@ with AvroReader(client, avro_input) as reader:
         selected_fields = actual_fields
     filename = os.path.splitext(os.path.basename(avro_input))[0]
     csv_output = filename + '.csv'
-    with open(csv_output, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=selected_fields)
-        writer.writeheader()
-        for record in reader:
-            writer.writerow({key: record[key] for key in selected_fields})
+    df = pd.DataFrame(reader)
+
+    if social_media:
+        df = df[df['social_media'] == social_media]
+
+    if search_phrase:
+        df = df[df['content'].str.contains(search_phrase)]
+
+    df = df[selected_fields]
+    
+    df.to_csv(csv_output, index=False)
