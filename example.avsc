@@ -1,9 +1,0 @@
-{
-	"type": "record",
-	"name": "example_schema",
-	"namespace": "example.avro",
-	"fields": [
-		{"name": "name", "type": "string"},
-		{"name": "content", "type": "string"}
-	]
-}
