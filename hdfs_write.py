@@ -8,7 +8,7 @@ if len(sys.argv) < 3:
     sys.exit('usage: python3 hdfs_write.py [avro_schema] [json_input]')
 
 avro_schema = sys.argv[1]
-json_inputs = sys.argv[2:]
+directory = sys.argv[2]
 
 if not os.path.isfile(avro_schema):
     sys.exit('avro schema does not exists')
@@ -18,9 +18,10 @@ records = []
 
 try:
     schema = json.load(open(avro_schema, encoding='utf8'))
-    for json_input in json_inputs:
-        if os.path.isfile(json_input):
-            records += json.load(open(json_input, encoding='utf8'))
+    for json_input in os.listdir(directory):
+        path = os.path.join(directory, json_input)
+        if os.path.isfile(path) and json_input.endswith('json'):
+            records += json.load(open(path, encoding='utf8'))
 except:
     sys.exit('invalid json input or schema format')
 
