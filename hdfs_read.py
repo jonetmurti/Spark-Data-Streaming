@@ -20,7 +20,7 @@ input_fields = args.select_field.split('-') if args.select_field else []
 social_media = args.social_media
 search_phrase = args.search_phrase
 
-client = InsecureClient('http://hadoop-master:9870')
+client = InsecureClient('http://localhost:9870')
 
 with AvroReader(client, avro_input) as reader:
     actual_fields = [field['name'] for field in reader.writer_schema['fields']]

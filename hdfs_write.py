@@ -27,7 +27,7 @@ except:
 
 avro_output = '/social_media.avro'
 
-client = InsecureClient('http://hadoop-master:9870')
+client = InsecureClient('http://localhost:9870')
 
 client.delete(avro_output)
 

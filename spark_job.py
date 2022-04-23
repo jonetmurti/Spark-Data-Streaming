@@ -2,11 +2,11 @@ from pyspark.sql import SparkSession
 
 import pyspark.sql.functions as sf
 
-spark = SparkSession.builder.master('spark://hadoop-master:7077') \
+spark = SparkSession.builder.master('spark://project2-bigdata:7077') \
                     .appName('test') \
                     .getOrCreate()
 
-df = spark.read.format('avro').load('hdfs://hadoop-master:9000/social_media.avro')
+df = spark.read.format('avro').load('hdfs://localhost:9000/social_media.avro')
 
 df_rename = df.withColumnRenamed('created_at', 'timestamp')
 
@@ -22,8 +22,8 @@ df_timestamp = df_group.withColumn('created_at', sf.current_timestamp().cast('st
 host = "jdbc:mysql://localhost:3306"
 
 conn_properties = {
-    "user": "newuser",
-    "password": "password",
+    "user": "root",
+    "password": "root",
     "driver": "com.mysql.cj.jdbc.Driver"
 }
 
