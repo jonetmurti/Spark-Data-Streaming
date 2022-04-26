@@ -27,7 +27,6 @@ if [ ! -d "/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" ]; then
 	echo "export KAFKA_HOME=/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" >> ~/.bashrc
 	echo "export PATH=$PATH:$KAFKA_HOME/bin" >> ~/.bashrc
 	sudo touch /etc/systemd/system/zookeeper.service
-	sudo cat ./zookeeper.service > /etc/systemd/system/zookeeper.service
 	sudo bash -c 'cat ./zookeeper.service > /etc/systemd/system/zookeeper.service'
 	sudo touch  /etc/systemd/system/kafka.service
 	sudo bash -c 'cat ./kafka.service > /etc/systemd/system/kafka.service'
