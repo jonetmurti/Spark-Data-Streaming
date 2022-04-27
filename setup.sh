@@ -24,17 +24,33 @@ fi
 if [ ! -d "/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" ]; then
 	echo "Extracting $KAFKA_FILE."
 	tar xvf $KAFKA_FILE
-	echo "export KAFKA_HOME=/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" >> ~/.bashrc
-	echo "export PATH=$PATH:$KAFKA_HOME/bin" >> ~/.bashrc
-	sudo touch /etc/systemd/system/zookeeper.service
-	sudo bash -c 'cat ./zookeeper.service > /etc/systemd/system/zookeeper.service'
-	sudo touch  /etc/systemd/system/kafka.service
-	sudo bash -c 'cat ./kafka.service > /etc/systemd/system/kafka.service'
-	sudo systemctl start kafka
-	sudo journalctl -u kafka
 else
 	echo "$KAFKA_FILE already extracted."
 fi
+
+if [ ! "$KAFKA_HOME" == "/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" ]; then
+	echo "Configuring kafka home."
+	echo "export KAFKA_HOME=/home/project2-bigdata/Frameworks/kafka_2.13-3.1.0" >> ~/.bashrc
+	echo "export PATH=$PATH:$KAFKA_HOME/bin" >> ~/.bashrc
+else
+	echo "Kafka home already configured."
+fi
+
+if [ ! -f "/etc/systemd/system/zookeeper.service" ]; then
+	echo "Creating zookeper.service."
+	sudo touch /etc/systemd/system/zookeeper.service
+fi
+sudo bash -c 'cat ./zookeeper.service > /etc/systemd/system/zookeeper.service'
+
+if [ ! -f "/etc/systemd/system/kafka.service" ]; then
+	echo "Creating kafka.service."
+	sudo touch  /etc/systemd/system/kafka.service
+fi
+sudo bash -c 'cat ./kafka.service > /etc/systemd/system/kafka.service'
+
+echo "Starting kafka."
+sudo systemctl start kafka
+sudo journalctl -u kafka
 
 if [ ! -d "./venv" ]; then
 	echo "Creating virtual environment"
