@@ -71,7 +71,8 @@ def process_rdd(rdd):
 	unique_user_count = user_sm.reduceByKey(lambda a,b: a+b)
 	# Result: [('facebook', 10), ('twitter', 20)]
 
-	res = stream_count.join(unique_user_count).map(lambda x: {'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),'social_media': x[0], 'stream_count': x[1][0], 'unique_user_count': x[1][1]})
+	timestamp = datetime.now().replace(second=0, microsecond=0).strftime("%Y-%m-%d %H:%M:%S")
+	res = stream_count.join(unique_user_count).map(lambda x: {'timestamp': timestamp,'social_media': x[0], 'stream_count': x[1][0], 'unique_user_count': x[1][1]})
 
 	# Add index for each social media
 	
